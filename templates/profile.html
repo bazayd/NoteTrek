@@ -1,0 +1,87 @@
+{% extends 'base.html' %}
+
+<title>{% block title %} Profile {% endblock %}</title>
+
+{% block content %}
+    <div class="container overflow-hidden text-center">
+        <div class="row gx-5">
+            <div class="col border rounded m-3">
+                <div class="p-4">
+                    <div class="container">
+                        <!-- PROFILE PICTURE SECTION -->
+                        <div class="row justify-content-center text-center">
+                            <div class="col-md-4">
+                                <div class="profile-section py-4">
+                                    <img src="{{ url_for('static', filename=current_user.profile_picture or 'uploads/default_profile.jpg') }}" alt="Profile Pic" class="rounded-circle img-fluid" style="width: 150px; height: 150px; object-fit: cover;">
+                                    <button type="button" class="btn btn-primary mt-3" data-bs-toggle="modal" data-bs-target="#profilePicModal" style="width: 150px;">Change Picture</button>
+                                </div>
+                            </div>
+                        </div>
+                    
+                        <!-- Modal for uploading profile picture -->
+                        <div class="modal fade" id="profilePicModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="profilePicModalLabel" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="profilePicModalLabel">Upload New Profile Picture</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <form method="POST" action="{{ url_for('upload_profile_picture') }}" enctype="multipart/form-data">
+                                            <div class="mb-3">
+                                                <label for="file" class="form-label">Choose a picture</label>
+                                                <input class="form-control" type="file" id="fileInput" name="file" required>
+                                            </div>
+                                            <button type="submit" class="btn btn-success">Upload</button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    
+                        <!-- USER INFORMATION SECTION -->
+                        <div class="row justify-content-center">
+                            <div class="col">
+                                <form class="form-floating form-section p-4" method="POST" action="">
+                                    <!-- Username and Phone Number on the same line with increased width -->
+                                    <div class="d-flex justify-content-between mb-4" style="gap: 15px;">
+                                        <input class="form-control border-bottom-0 border-start-0 border-end-0" type="text" name="username" value="{{ current_user.username }}" placeholder="Username" style="flex-basis: 48%; font-size: 1.1em; padding: 10px;">
+                                        <input class="form-control border-bottom-0 border-start-0 border-end-0" type="text" name="phone" value="{{current_user.phone}}" placeholder="Phone" style="flex-basis: 48%; font-size: 1.1em; padding: 10px;">
+                                    </div>
+                    
+                                    <!-- Email field below spanning full width -->
+                                    <div class="mb-4">
+                                        <input class="form-control border-bottom-0 border-start-0 border-end-0" type="email" name="email" value="{{current_user.email}}" placeholder="Email" style="font-size: 1.1em; width: 100%; padding: 10px;">
+                                    </div>
+                    
+                                    <!-- Save button -->
+                                    <button type="submit" class="btn btn-primary rounded-pill px-5" style="background-color: #FF5722; border: none;">Save</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    
+                </div>
+            </div>
+            <div class="col m-4">
+                <div class="p-4 border rounded mb-5">
+
+                </div>
+                <div class="p-4 border rounded">Custom column padding</div>
+            </div>
+        </div>
+    </div>
+
+
+{% endblock %}
+
+<script>
+    // Using vanilla JS to add event listener for when the modal is shown
+    const myModal = document.getElementById('profilePicModal');
+    const myInput = document.getElementById('fileInput');
+
+    myModal.addEventListener('shown.bs.modal', () => {
+        myInput.focus();  // Automatically focus on the file input when modal is shown
+    });
+</script>

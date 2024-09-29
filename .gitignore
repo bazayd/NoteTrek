@@ -1,0 +1,21 @@
+.env
+
+# Ignore __pycache__ directories
+__pycache__/
+
+
+# Ignore SQLite database files (if used)
+*.sqlite3
+*.db
+*.sql
+
+# Ignore compiled files
+*.pyc
+
+# Ignore virtual environments
+venv/
+
+
+#Python files
+init_db.py
+migratepass.py

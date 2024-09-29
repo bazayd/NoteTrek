@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<title>{% block title %} Dashboard {% endblock %}</title>
+
+    <h2 class="text-start m-3">Welcome, {{ current_user.username }}!</h2>
+
+    {% if notes %}
+        <h1 class="text-center p-5" >Top Priority</h1>
+        <!-- Loop for Top Priority Notes -->
+
+                <div class="container text-center border-0  border-primary rounded ">
+                    <div class="row align-items-start">
+                        {% for note in notes %}
+                            {% if note['priority'] == 1 %}
+                                <div class="col">
+                                    <a href="{{ url_for('note', note_id=note['id']) }}">
+                                        <h2>{{ note['title'] }}</h2>
+                                        <h4>{{ note['content']}}</h4>
+                                    </a>
+                                    <a href="{{ url_for('edit', id=note['id']) }}">
+                                        <button>Edit</button>
+                                    </a>
+                                </div>
+                            {% endif %}
+                        {% endfor %}
+                    </div>
+                </div>
+
+
+
+        <hr>
+
+        <h1>Todo</h1>
+        <!-- Loop for Non-Priority Notes -->
+        {% for note in notes %}
+            {% if note['priority'] == 0 %}
+                <div class="container text-center">
+                    <div class="row align-items-start">
+                        <div class="col">
+                            <a href="{{ url_for('note', note_id=note['id']) }}">
+                                <h2>{{ note['title'] }}</h2>
+                                <h4>{{ note['content']}}</h4>
+                            </a>
+                            <a href="{{ url_for('edit', id=note['id']) }}">
+                                <button>Edit</button>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
+        {% endfor %}
+    {% else %}
+        <p>No notes available.</p>
+    {% endif %}
+{% endblock %}
